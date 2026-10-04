@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Элементы решения/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="AIAcademy.Core/AIAcademy.Core.csproj" />
+  <Project Path="AIAcademy.WPF/AIAcademy.WPF.csproj" />
+</Solution>

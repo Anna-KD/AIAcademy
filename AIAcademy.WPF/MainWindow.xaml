@@ -1,0 +1,140 @@
+﻿<Window x:Class="AIAcademy.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AIAcademy.WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="900">
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ROBOTS -->
+
+        <ListBox x:Name="RobotListBox"
+             ItemsSource="{Binding Robots}"
+             DisplayMemberPath="Name"
+             Grid.Row="0"
+             Grid.Column="0"/>
+
+        <!-- RIGHT PANEL -->
+        <TabControl Grid.Row="0"
+            Grid.Column="1"
+            Margin="10,10,10,0">
+
+            <TabItem Header="Robot Actions">
+
+                <StackPanel Margin="10,0,10,0" Height="340">
+
+                    <TextBlock Text="AI Academy"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Margin="0,0,0,15"/>
+
+                    <TextBlock Text="Name:"
+                       FontWeight="Bold"/>
+
+                    <TextBlock x:Name="NameTextBlock"
+                       Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Type:"
+                       FontWeight="Bold"/>
+
+                    <TextBlock x:Name="TypeTextBlock"
+                       Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Battery:"
+                       FontWeight="Bold"/>
+
+                    <ProgressBar x:Name="BatteryProgressBar"
+                         Height="20"
+                         Maximum="100"
+                         Margin="0,5"/>
+
+                    <TextBlock x:Name="BatteryTextBlock"
+                       Margin="0,0,0,15"/>
+
+                    <Button Content="Teach"
+                    Height="25"
+                    Margin="0,5"
+                    Click="TeachButton_Click"/>
+
+                    <Button Content="Create Quiz"
+                    Height="25"
+                    Margin="0,5"
+                    Click="QuizButton_Click"/>
+
+                    <Button Content="Recharge"
+                    Height="25"
+                    Margin="0,5"
+                    Click="RechargeButton_Click"/>
+
+                    <Button Content="Crazy Action"
+                    Height="25"
+                    Margin="0,5"
+                    Click="CrazyActionButton_Click"/>
+
+                </StackPanel>
+
+            </TabItem>
+
+            <TabItem Header="Manage Robots">
+
+                <StackPanel Margin="10">
+
+                    <TextBlock Text="New Robot Name:"
+                       FontWeight="Bold"/>
+
+                    <TextBox x:Name="RobotNameTextBox"
+                     Margin="0,0,0,10"/>
+
+                    <Button Content="Add Math Robot"
+                    Margin="0,5"
+                    Click="AddMathRobotButton_Click"/>
+
+                    <Button Content="Add Language Robot"
+                    Margin="0,5"
+                    Click="AddLanguageRobotButton_Click"/>
+
+                    <Button Content="Add Science Robot"
+                    Margin="0,5"
+                    Click="AddScienceRobotButton_Click"/>
+
+                    <Button Content="Delete Selected Robot"
+                    Margin="0,15,0,5"
+                    Click="DeleteRobotButton_Click"/>
+
+                </StackPanel>
+
+            </TabItem>
+
+        </TabControl>
+
+        <!-- LOG -->
+
+        <GroupBox Header="Log"
+              Grid.Row="1"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Margin="0,10,0,0">
+
+            <TextBox x:Name="LogTextBox"
+                 IsReadOnly="True"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto"/>
+
+        </GroupBox>
+
+    </Grid>
+    
+</Window>
