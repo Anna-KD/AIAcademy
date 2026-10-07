@@ -1,8 +1,10 @@
-﻿using System;
+﻿using AIAcademy.Core.Base;
+using AIAcademy.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AIAcademy.Core
+namespace AIAcademy.Core.Models
 {
     public class ScienceTeacherBot : RobotTeacher, IQuizCreator, IRechargeable
     {

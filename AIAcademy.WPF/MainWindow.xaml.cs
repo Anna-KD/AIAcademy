@@ -3,6 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using AIAcademy.Core;
 using System.Linq;
+using AIAcademy.Core.Interfaces;
+using AIAcademy.Core.Models;
+using AIAcademy.Core.Base;
 
 namespace AIAcademy.WPF
 {
@@ -29,9 +32,20 @@ namespace AIAcademy.WPF
         {
             if (RobotListBox.SelectedItem is RobotTeacher robot)
             {
-                NameTextBlock.Text = robot.Name;
-                TypeTextBlock.Text = robot.GetType().Name;
-                BatteryTextBlock.Text = robot.BatteryLevel.ToString();
+                NameTextBlock.Text = $"Name: {robot.Name}";
+                if (robot is MathTeacherBot)
+                {
+                    TypeTextBlock.Text = "Type: Math Teacher";
+                }
+                else if (robot is LanguageTeacherBot)
+                {
+                    TypeTextBlock.Text = "Type: Language Teacher";
+                }
+                else if (robot is ScienceTeacherBot)
+                {
+                    TypeTextBlock.Text = "Type: Science Teacher";
+                }
+                BatteryTextBlock.Text = $"Battery: {robot.BatteryLevel}%";
                 BatteryProgressBar.Value = robot.BatteryLevel;
             }
         }
@@ -42,7 +56,7 @@ namespace AIAcademy.WPF
                 string message = robot.CrazyAction();
 
                 LogTextBox.AppendText(message + Environment.NewLine);
-                BatteryTextBlock.Text = robot.BatteryLevel.ToString();
+                BatteryTextBlock.Text = $"Battery: {robot.BatteryLevel}%"; 
                 BatteryProgressBar.Value = robot.BatteryLevel;
             }
             else
@@ -58,7 +72,7 @@ namespace AIAcademy.WPF
 
                 LogTextBox.AppendText(message + Environment.NewLine);
 
-                BatteryTextBlock.Text = robot.BatteryLevel.ToString();
+                BatteryTextBlock.Text = $"Battery: {robot.BatteryLevel}%";
                 BatteryProgressBar.Value = robot.BatteryLevel;
             }
             else
@@ -76,7 +90,7 @@ namespace AIAcademy.WPF
 
                 if (RobotListBox.SelectedItem is RobotTeacher robot)
                 {
-                    BatteryTextBlock.Text = $"{robot.BatteryLevel}%";
+                    BatteryTextBlock.Text = $"Battery: {robot.BatteryLevel}%";
                     BatteryProgressBar.Value = robot.BatteryLevel;
                 }
             }
@@ -92,7 +106,7 @@ namespace AIAcademy.WPF
 
                 if (RobotListBox.SelectedItem is RobotTeacher robot)
                 {
-                    BatteryTextBlock.Text = robot.BatteryLevel.ToString();
+                    BatteryTextBlock.Text = $"Battery: {robot.BatteryLevel}%";
                     BatteryProgressBar.Value = robot.BatteryLevel;
                 }
             }

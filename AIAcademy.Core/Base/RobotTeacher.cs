@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AIAcademy.Core
+namespace AIAcademy.Core.Base
 {
     public abstract class RobotTeacher
     {

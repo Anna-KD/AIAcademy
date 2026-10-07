@@ -1,12 +1,14 @@
-﻿using System;
+﻿using AIAcademy.Core.Base;
+using AIAcademy.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AIAcademy.Core
+namespace AIAcademy.Core.Models
 {
-    public class LanguageTeacherBot : RobotTeacher, IQuizCreator, IRechargeable
+    public class MathTeacherBot : RobotTeacher, IQuizCreator, IRechargeable
     {
-        public LanguageTeacherBot(string name) : base(name)
+        public MathTeacherBot(string name) : base(name)
         {
         }
 
@@ -19,12 +21,20 @@ namespace AIAcademy.Core
 
             BatteryLevel -= 5;
 
-            return $"{Name} created a language quiz.";
+            return $"{Name} created a math quiz.";
         }
+
 
         public override string CrazyAction()
         {
-            return $"{Name} translated one word into 20 languages and forgot the original.";
+            if (BatteryLevel < 20)
+            {
+                return $"{Name} has insufficient battery.";
+            }
+
+            BatteryLevel -= 20;
+
+            return $"{Name} solved 100 equations in one second and got confused by 2 + 2.";
         }
         public string Recharge()
         {
@@ -40,8 +50,7 @@ namespace AIAcademy.Core
 
             BatteryLevel -= 10;
 
-            return $"{Name} teaches English vocabulary.";
+            return $"{Name} teaches algebra.";
         }
     }
-
 }
