@@ -45,8 +45,12 @@ namespace AIAcademy.WPF
                 {
                     TypeTextBlock.Text = "Type: Science Teacher";
                 }
-                BatteryTextBlock.Text = $"Battery: {robot.BatteryLevel}%";
+                else if (robot is HistoryTeacherBot)
+                {
+                    TypeTextBlock.Text = "Type: History Teacher";
+                }
                 BatteryProgressBar.Value = robot.BatteryLevel;
+
             }
         }
         private void CrazyActionButton_Click(object sender, RoutedEventArgs e)
@@ -172,6 +176,31 @@ namespace AIAcademy.WPF
 
             RobotNameTextBox.Clear();
         }
+
+        // teacher bot
+        private void AddHistoryRobotButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(RobotNameTextBox.Text))
+            {
+                MessageBox.Show("Enter a robot name.");
+                return;
+            }
+
+            if (RobotNameTextBox.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("Name cannot contain only numbers.");
+                return;
+            }
+
+            Robots.Add(
+                new HistoryTeacherBot(RobotNameTextBox.Text));
+
+            LogTextBox.AppendText(
+                $"History robot {RobotNameTextBox.Text} added.{Environment.NewLine}");
+
+            RobotNameTextBox.Clear();
+        }
+
         private void DeleteRobotButton_Click(object sender, RoutedEventArgs e)
         {
             if (RobotListBox.SelectedItem is RobotTeacher robot)

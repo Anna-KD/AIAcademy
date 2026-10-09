@@ -81,6 +81,10 @@
 
                 <Button Content="Add Science Teacher"
                         Click="AddScienceRobotButton_Click"/>
+
+                <Button Content="Add History Teacher"
+                        Click="AddHistoryRobotButton_Click"/>
+                
             </StackPanel>
         </Grid>
 
