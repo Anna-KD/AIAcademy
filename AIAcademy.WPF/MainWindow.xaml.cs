@@ -33,6 +33,7 @@ namespace AIAcademy.WPF
             if (RobotListBox.SelectedItem is RobotTeacher robot)
             {
                 NameTextBlock.Text = $"Name: {robot.Name}";
+
                 if (robot is MathTeacherBot)
                 {
                     TypeTextBlock.Text = "Type: Math Teacher";
@@ -49,8 +50,9 @@ namespace AIAcademy.WPF
                 {
                     TypeTextBlock.Text = "Type: History Teacher";
                 }
-                BatteryProgressBar.Value = robot.BatteryLevel;
 
+                BatteryTextBlock.Text = $"Battery: {robot.BatteryLevel}%";
+                BatteryProgressBar.Value = robot.BatteryLevel;
             }
         }
         private void CrazyActionButton_Click(object sender, RoutedEventArgs e)
