@@ -51,6 +51,15 @@ namespace AIAcademy.Core.Models
 
             return $"{Name} teaches English vocabulary.";
         }
+        public override string Welcome(RobotTeacher newRobot)
+        {
+            return $"{Name} welcomes {newRobot.Name} to the Language Department.";
+        }
+        public override string ReactToCrazyAction(RobotTeacher robot)
+        {
+            BatteryLevel -= 5;
+            return $"{Name} is trying to translate {robot.Name}'s explanation.";
+        }
     }
 
 }

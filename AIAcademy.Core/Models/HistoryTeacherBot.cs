@@ -52,5 +52,14 @@ namespace AIAcademy.Core.Models
 
             return $"{Name} confidently placed a famous historical event in the wrong century.";
         }
+        public override string Welcome(RobotTeacher newRobot)
+        {
+            return $"{Name} welcomes {newRobot.Name} to the History Department.";
+        }
+        public override string ReactToCrazyAction(RobotTeacher robot)
+        {
+            BatteryLevel -= 5;
+            return $"{Name} believes this event belongs in history books.";
+        }
     }
 }

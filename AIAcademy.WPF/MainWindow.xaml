@@ -84,7 +84,7 @@
 
                 <Button Content="Add History Teacher"
                         Click="AddHistoryRobotButton_Click"/>
-                
+
             </StackPanel>
         </Grid>
 
@@ -93,85 +93,131 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- информация о роботе -->
                 <RowDefinition Height="Auto"/>
-                <!-- кнопки -->
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <!-- лог на всё остальное место -->
             </Grid.RowDefinitions>
 
             <!-- Информация о роботе -->
             <StackPanel Grid.Row="0">
 
                 <TextBlock Text="🤖 AI Academy"
-                           FontSize="26"
-                           FontWeight="Bold"
-                           Foreground="#1E3A5F"
-                           Margin="0,0,0,10"/>
+                   FontSize="26"
+                   FontWeight="Bold"
+                   Foreground="#1E3A5F"
+                   Margin="0,0,0,10"/>
 
                 <TextBlock x:Name="NameTextBlock"
-                           FontSize="16"
-                           FontWeight="Bold"
-                           Margin="0,0,0,5"/>
+                   FontSize="16"
+                   FontWeight="Bold"
+                   Margin="0,0,0,5"/>
 
                 <TextBlock x:Name="TypeTextBlock"
-                           FontSize="16"
-                           FontWeight="Bold"
-                           Margin="0,0,0,10"/>
+                   FontSize="16"
+                   FontWeight="Bold"
+                   Margin="0,0,0,10"/>
 
                 <TextBlock x:Name="BatteryTextBlock"
-                           Text="Battery: 100%"
-                           FontSize="16"
-                           FontWeight="Bold"
-                           Margin="0,0,0,5"/>
+                   Text="Battery: 100%"
+                   FontSize="16"
+                   FontWeight="Bold"
+                   Margin="0,0,0,5"/>
 
                 <ProgressBar x:Name="BatteryProgressBar"
-                             Height="20"
-                             Maximum="100"
-                             Value="100"/>
+                     Height="20"
+                     Maximum="100"
+                     Value="100"/>
+
             </StackPanel>
 
-            <!-- Кнопки в ряд -->
+            <!-- Основные действия -->
             <WrapPanel Grid.Row="1" Margin="0,15">
 
                 <Button Content="Teach"
-                        Width="130"
-                        Margin="0,0,10,0"
-                        Click="TeachButton_Click"/>
+                Width="130"
+                Margin="0,0,10,0"
+                Click="TeachButton_Click"/>
 
                 <Button Content="Create Quiz"
-                        Width="130"
-                        Margin="0,0,10,0"
-                        Click="QuizButton_Click"/>
+                Width="130"
+                Margin="0,0,10,0"
+                Click="QuizButton_Click"/>
 
                 <Button Content="Recharge"
-                        Width="130"
-                        Background="#2ECC71"
-                        Margin="0,0,10,0"
-                        Click="RechargeButton_Click"/>
+                Width="130"
+                Background="#2ECC71"
+                Margin="0,0,10,0"
+                Click="RechargeButton_Click"/>
 
                 <Button Content="Crazy Action"
-                        Width="130"
-                        Background="#E74C3C"
-                        Margin="0,0,10,0"
-                        Click="CrazyActionButton_Click"/>
+                Width="130"
+                Background="#E74C3C"
+                Margin="0,0,10,0"
+                Click="CrazyActionButton_Click"/>
 
                 <Button Content="Delete Robot"
-                        Width="130"
-                        Background="#C0392B"
-                        Click="DeleteRobotButton_Click"/>
+                Width="130"
+                Background="#C0392B"
+                Click="DeleteRobotButton_Click"/>
+
             </WrapPanel>
 
+            <!-- LINQ -->
+            <StackPanel Grid.Row="2"
+                Margin="0,0,0,10">
+
+                <TextBlock Text="Search Robot:"
+                   FontWeight="Bold"
+                   Margin="0,0,0,5"/>
+
+                <WrapPanel>
+
+                    <TextBox x:Name="SearchTextBox"
+                     Width="180"
+                     Height="30"
+                     Margin="0,0,10,0"/>
+
+                    <Button Content="Search"
+                    Width="100"
+                    Click="SearchButton_Click"/>
+
+                    <Button Content="Sort A-Z"
+                    Width="100"
+                    Margin="10,0,0,0"
+                    Click="SortButton_Click"/>
+
+                    <Button Content="Show Summary"
+        Width="130"
+        Margin="10,0,0,0"
+        Command="{Binding SummaryCommand}"/>
+                    
+                    <Button Content="Test MVVM"
+        Width="120"
+        Margin="10,0,0,0"
+        Command="{Binding TestCommand}"/>
+                    <Button Content="Test CanExecute"
+        Width="140"
+        Command="{Binding TestCanExecuteCommand}" />
+                 
+
+                </WrapPanel>
+
+            </StackPanel>
+
             <!-- Лог -->
-            <GroupBox Grid.Row="2" Header="📋 Activity Log">
+            <GroupBox Grid.Row="3"
+              Header="📋 Activity Log">
+
                 <TextBox x:Name="LogTextBox"
-                         IsReadOnly="True"
-                         AcceptsReturn="True"
-                         TextWrapping="Wrap"
-                         VerticalScrollBarVisibility="Auto"
-                         FontFamily="Consolas"
-                         FontSize="14"/>
+                 IsReadOnly="True"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto"
+                 FontFamily="Consolas"
+                 FontSize="14"/>
+
             </GroupBox>
+
         </Grid>
 
     </Grid>

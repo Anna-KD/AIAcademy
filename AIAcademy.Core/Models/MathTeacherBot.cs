@@ -52,5 +52,14 @@ namespace AIAcademy.Core.Models
 
             return $"{Name} teaches algebra.";
         }
+        public override string Welcome(RobotTeacher newRobot)
+        {
+            return $"{Name} welcomes {newRobot.Name} to the Math Department.";
+        }
+        public override string ReactToCrazyAction(RobotTeacher robot)
+        {
+            BatteryLevel -= 5;
+            return $"{Name} is impressed by {robot.Name}'s calculations.";
+        }
     }
 }

@@ -33,5 +33,17 @@ namespace AIAcademy.Core.Base
         }
 
         public abstract string CrazyAction();
+        public virtual string Welcome(RobotTeacher newRobot)
+        {
+            return $"{Name} welcomes {newRobot.Name} to AI Academy.";
+        }
+        public virtual string Goodbye(RobotTeacher robot)
+        {
+            return $"{Name} says goodbye to {robot.Name}.";
+        }
+        public virtual string ReactToCrazyAction(RobotTeacher robot)
+        {
+            return $"{Name} reacts to {robot.Name}'s crazy action.";
+        }
     }
 }
