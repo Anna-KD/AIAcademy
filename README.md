@@ -1,114 +1,113 @@
-# AI Academy
+# AI Academy (Crazy Universe Vol.2)
 
 ## Description
 
 AI Academy is a humorous WPF application where robot teachers perform different actions and consume battery power.
+Vol.2 extends Vol.1 with generic repositories, events, LINQ and the MVVM pattern.
 
 The project demonstrates:
 
-- Inheritance
-- Interfaces
-- Polymorphism
-- Validation
-- ObservableCollection
-- WPF user interface development
+- Inheritance, interfaces and polymorphism
+- Generics (`IRepository<T>`, `Repository<T>` with `where T : RobotTeacher`)
+- Events and reactions between objects
+- LINQ (Where, OrderBy, GroupBy)
+- MVVM (Model, ViewModel, View with bindings and commands)
 
 ## World
 
-The application contains three robot teachers:
-
-- MathTeacherBot
-- LanguageTeacherBot
-- ScienceTeacherBot
-
 All robot teachers inherit from the abstract class `RobotTeacher`.
+
+| Type | Repository |
+|---|---|
+| MathTeacherBot | `Repository<MathTeacherBot>` |
+| LanguageTeacherBot | `Repository<LanguageTeacherBot>` |
+| ScienceTeacherBot | `Repository<ScienceTeacherBot>` |
+| HistoryTeacherBot | `Repository<HistoryTeacherBot>` |
+
+Each robot type has its own repository.
 
 ## Interfaces
 
-### IQuizCreator
+- `IQuizCreator`: the robot can create a quiz.
+- `IRechargeable`: the robot can recharge its battery.
 
-Allows robots to create quizzes.
-
-### IRechargeable
-
-Allows robots to recharge their batteries.
-
-All robot types implement both interfaces.
+Robots that do not implement an interface have the matching button disabled (`CanExecute`).
 
 ## Object State
 
-Each robot has:
+Each robot has a name and a battery level (0-100). The battery level changes when actions are performed.
 
-- Name
-- BatteryLevel
-
-Battery level changes when actions are performed.
-
-### Battery Costs
-
-- Teach: -10
-- Create Quiz: -5
-- Crazy Action: -20
-- Recharge: restores battery to 100%
+| Action | Battery |
+|---|---|
+| Teach | -10 |
+| Create Quiz | -5 |
+| Crazy Action | -20 |
+| Reaction to a neighbour's Crazy Action | -5 (all current types) |
+| Recharge | restores to 100% |
 
 Robots cannot perform actions when the battery level is insufficient.
+
+## Events and reactions (Core)
+
+All of this logic lives in `Repository<T>` and the models, not in the WPF code-behind.
+
+- **Add:** existing robots of the same repository greet the new robot. The new robot does not greet itself.
+- **Remove:** the remaining robots say goodbye. The removed robot is unsubscribed and no longer reacts.
+- **CrazyAction:** `RobotTeacher.CrazyActionPerformed` is raised with `RobotEventArgs` (the robot that caused it). Other robots in the same repository react and lose battery. The actor does not react to itself.
+- Robots in other repositories never react.
+
+## LINQ
+
+- **Where:** search robots by name.
+- **OrderBy:** sort robots by name (A-Z).
+- **GroupBy:** summary of robots per type across all repositories.
+
+## MVVM
+
+- **Model (Core):** robots, repositories, events, reaction rules.
+- **ViewModel:** `MainViewModel` (selected repository and robot, lists, log, summary), `RelayCommand`.
+- **View:** `MainWindow.xaml` uses bindings and commands only. The code-behind contains no business logic.
 
 ## Validation Rules
 
 - Robot names cannot be empty.
-- MathTeacherBot and ScienceTeacherBot names cannot consist only of numbers.
-- LanguageTeacherBot names may contain letters only.
-- Invalid input does not change application state.
+- Robot names cannot consist only of digits.
+- Add, Delete, Teach and Crazy Action are disabled when there is no valid input or selection.
 
 ## Crazy Actions
 
-### MathTeacherBot
-
-Solves 100 equations in one second and becomes confused by 2 + 2.
-
-### LanguageTeacherBot
-
-Translates one word into 20 languages and forgets the original word.
-
-### ScienceTeacherBot
-
-Creates glowing tea during an experiment.
-
-CrazyAction consumes battery power and depends on the robot's current battery level.
+- **MathTeacherBot:** solves 100 equations in one second and becomes confused by 2 + 2.
+- **LanguageTeacherBot:** translates one word into 20 languages and forgets the original.
+- **ScienceTeacherBot:** creates glowing tea during an experiment.
+- **HistoryTeacherBot:** confidently places a famous historical event in the wrong century.
 
 ## WPF Elements Used
 
-### ProgressBar
-
-ProgressBar is used to display the battery level of the selected robot.
-
-The control provides a clear visual representation of the robot's current state.
+- `ProgressBar`: shows the battery level of the selected robot.
+- `ComboBox`: selects the repository.
+- `ListBox`: shows robots of the selected repository.
 
 ## Main Features
 
-Users can:
-
-- View all robots
-- Select robots
-- Add new robots
-- Delete robots
-- Teach lessons
-- Create quizzes
-- Recharge batteries
-- Use CrazyAction
-- View activity logs
+Users can select a repository and a robot, add and delete robots, teach, create quizzes, recharge, use Crazy Action, search, sort, view the summary and read the activity log.
 
 ## Tested Use Cases
 
-1. Teaching decreases battery level by 10.
-2. Quiz creation decreases battery level by 5.
-3. CrazyAction decreases battery level by 20.
-4. Recharge restores battery level to 100%.
-5. New robots can be added successfully.
-6. Invalid robot names are rejected.
-7. Robots can be removed from the academy.
-8. Robots cannot perform actions with insufficient battery.
+1. Teaching decreases battery by 10.
+2. Quiz creation decreases battery by 5.
+3. Crazy Action decreases battery by 20.
+4. Recharge restores battery to 100%.
+5. Adding a robot: only robots of the same repository greet it.
+6. Crazy Action: only robots of the same repository react, and their battery decreases.
+7. Removing a robot: the others say goodbye, and the removed robot no longer reacts.
+8. Other repositories keep their state and log unchanged.
+9. Search, sort A-Z and the summary work.
+10. Invalid names are rejected.
+
+## Team work
+
+A second student added three new robot types in a separate branch and opened a pull request, which was reviewed, approved and merged.
 
 ## AI Usage
 
-AI was used to help with project planning, code examples, problem solving, debugging, user interface improvements, and documentation. All generated code was reviewed, tested, and adapted for the final project by the student.
+AI was used to help with project planning, code examples, problem solving, debugging, user interface improvements and documentation. All generated code was reviewed, tested and adapted for the final project by the student.

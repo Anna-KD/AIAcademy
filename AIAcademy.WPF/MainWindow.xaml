@@ -9,7 +9,7 @@
         Background="#F5F7FA">
 
     <Window.Resources>
-        <!-- Один стиль для всех кнопок: цвет, скругление, размер -->
+        <!-- One style for all buttons -->
         <Style TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="#4F8EF7"/>
@@ -19,11 +19,18 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
                                 CornerRadius="8">
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- An inactive button appears gray (reflecting CanExecute) -->
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.4"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -32,33 +39,36 @@
 
     <Grid Margin="10">
 
-        <!-- Две колонки: слева список, справа всё остальное -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- ===== ЛЕВАЯ ЧАСТЬ ===== -->
+        <!-- ===== LEFT SIDE ===== -->
         <Grid Grid.Column="0" Margin="0,0,10,0">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- заголовок -->
                 <RowDefinition Height="*"/>
-                <!-- список растягивается -->
                 <RowDefinition Height="Auto"/>
-                <!-- добавление робота -->
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0"
-                       Text="🤖 Robot Teachers"
-                       FontSize="18"
-                       FontWeight="Bold"
-                       Margin="0,0,0,10"/>
+            <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                <TextBlock Text="🤖 Robot Teachers"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Margin="0,0,0,10"/>
+
+                <TextBlock Text="Repository:" FontWeight="Bold" Margin="0,0,0,5"/>
+
+                <ComboBox ItemsSource="{Binding Repositories}"
+                          DisplayMemberPath="Name"
+                          SelectedItem="{Binding SelectedRepository}"/>
+            </StackPanel>
 
             <ListBox Grid.Row="1"
-                     x:Name="RobotListBox"
                      ItemsSource="{Binding Robots}"
+                     SelectedItem="{Binding SelectedRobot}"
                      DisplayMemberPath="Name"
                      FontSize="16"/>
 
@@ -68,27 +78,18 @@
                            FontWeight="Bold"
                            Margin="0,0,0,5"/>
 
-                <TextBox x:Name="RobotNameTextBox"
-                         Height="30"
+                <TextBox Height="30"
                          FontSize="15"
-                         Margin="0,0,0,5"/>
+                         Margin="0,0,0,5"
+                         Text="{Binding NewRobotName, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <Button Content="Add Math Teacher"
-                        Click="AddMathRobotButton_Click"/>
-
-                <Button Content="Add Language Teacher"
-                        Click="AddLanguageRobotButton_Click"/>
-
-                <Button Content="Add Science Teacher"
-                        Click="AddScienceRobotButton_Click"/>
-
-                <Button Content="Add History Teacher"
-                        Click="AddHistoryRobotButton_Click"/>
+                <Button Content="Add to selected repository"
+                        Command="{Binding AddCommand}"/>
 
             </StackPanel>
         </Grid>
 
-        <!-- ===== ПРАВАЯ ЧАСТЬ ===== -->
+        <!-- ===== RIGHT SIDE ===== -->
         <Grid Grid.Column="1">
 
             <Grid.RowDefinitions>
@@ -98,123 +99,91 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Информация о роботе -->
+            <!-- Information about the robot -->
             <StackPanel Grid.Row="0">
 
                 <TextBlock Text="🤖 AI Academy"
-                   FontSize="26"
-                   FontWeight="Bold"
-                   Foreground="#1E3A5F"
-                   Margin="0,0,0,10"/>
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Foreground="#1E3A5F"
+                           Margin="0,0,0,10"/>
 
-                <TextBlock x:Name="NameTextBlock"
-                   FontSize="16"
-                   FontWeight="Bold"
-                   Margin="0,0,0,5"/>
+                <TextBlock Text="{Binding SelectedRobot.Name, StringFormat=Name: {0}}"
+                           FontSize="16" FontWeight="Bold" Margin="0,0,0,5"/>
 
-                <TextBlock x:Name="TypeTextBlock"
-                   FontSize="16"
-                   FontWeight="Bold"
-                   Margin="0,0,0,10"/>
+                <TextBlock Text="{Binding SelectedRobot.TypeName, StringFormat=Type: {0}}"
+                           FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
 
-                <TextBlock x:Name="BatteryTextBlock"
-                   Text="Battery: 100%"
-                   FontSize="16"
-                   FontWeight="Bold"
-                   Margin="0,0,0,5"/>
+                <TextBlock Text="{Binding SelectedRobot.BatteryLevel, StringFormat=Battery: {0}%, Mode=OneWay}"
+                           FontSize="16" FontWeight="Bold" Margin="0,0,0,5"/>
 
-                <ProgressBar x:Name="BatteryProgressBar"
-                     Height="20"
-                     Maximum="100"
-                     Value="100"/>
+                <ProgressBar Height="20" Maximum="100"
+                             Value="{Binding SelectedRobot.BatteryLevel, Mode=OneWay}"/>
 
             </StackPanel>
 
-            <!-- Основные действия -->
+            <!-- Main actions -->
             <WrapPanel Grid.Row="1" Margin="0,15">
 
                 <Button Content="Teach"
-                Width="130"
-                Margin="0,0,10,0"
-                Click="TeachButton_Click"/>
+                        Width="130"
+                        Margin="0,0,10,0"
+                        Command="{Binding TeachCommand}"/>
 
                 <Button Content="Create Quiz"
-                Width="130"
-                Margin="0,0,10,0"
-                Click="QuizButton_Click"/>
+                        Width="130"
+                        Margin="0,0,10,0"
+                        Command="{Binding QuizCommand}"/>
 
                 <Button Content="Recharge"
-                Width="130"
-                Background="#2ECC71"
-                Margin="0,0,10,0"
-                Click="RechargeButton_Click"/>
+                        Width="130"
+                        Background="#2ECC71"
+                        Margin="0,0,10,0"
+                        Command="{Binding RechargeCommand}"/>
 
                 <Button Content="Crazy Action"
-                Width="130"
-                Background="#E74C3C"
-                Margin="0,0,10,0"
-                Click="CrazyActionButton_Click"/>
+                        Width="130"
+                        Background="#E74C3C"
+                        Margin="0,0,10,0"
+                        Command="{Binding CrazyActionCommand}"/>
 
                 <Button Content="Delete Robot"
-                Width="130"
-                Background="#C0392B"
-                Click="DeleteRobotButton_Click"/>
+                        Width="130"
+                        Background="#C0392B"
+                        Command="{Binding RemoveCommand}"/>
 
             </WrapPanel>
 
-            <!-- LINQ -->
-            <StackPanel Grid.Row="2"
-                Margin="0,0,0,10">
+            <!-- LINQ: Search, Sorting, Summary -->
+            <StackPanel Grid.Row="2" Margin="0,0,0,10">
 
-                <TextBlock Text="Search Robot:"
-                   FontWeight="Bold"
-                   Margin="0,0,0,5"/>
+                <TextBlock Text="Search by name:" FontWeight="Bold" Margin="0,0,0,5"/>
 
                 <WrapPanel>
+                    <TextBox Width="180" Height="30" Margin="0,0,10,0"
+             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBox x:Name="SearchTextBox"
-                     Width="180"
-                     Height="30"
-                     Margin="0,0,10,0"/>
+                    <Button Content="Sort A-Z" Width="110" Margin="0,0,10,0"
+            Command="{Binding SortByNameCommand}"/>
 
-                    <Button Content="Search"
-                    Width="100"
-                    Click="SearchButton_Click"/>
-
-                    <Button Content="Sort A-Z"
-                    Width="100"
-                    Margin="10,0,0,0"
-                    Click="SortButton_Click"/>
-
-                    <Button Content="Show Summary"
-        Width="130"
-        Margin="10,0,0,0"
-        Command="{Binding SummaryCommand}"/>
-                    
-                    <Button Content="Test MVVM"
-        Width="120"
-        Margin="10,0,0,0"
-        Command="{Binding TestCommand}"/>
-                    <Button Content="Test CanExecute"
-        Width="140"
-        Command="{Binding TestCanExecuteCommand}" />
-                 
 
                 </WrapPanel>
 
+                <TextBlock Text="Summary (all repositories):" FontWeight="Bold" Margin="0,10,0,3"/>
+                <TextBlock Text="{Binding SummaryText}" FontFamily="Consolas"/>
+
             </StackPanel>
 
-            <!-- Лог -->
-            <GroupBox Grid.Row="3"
-              Header="📋 Activity Log">
+            <!-- Activity Log -->
+            <GroupBox Grid.Row="3" Header="📋 Activity Log">
 
-                <TextBox x:Name="LogTextBox"
-                 IsReadOnly="True"
-                 AcceptsReturn="True"
-                 TextWrapping="Wrap"
-                 VerticalScrollBarVisibility="Auto"
-                 FontFamily="Consolas"
-                 FontSize="14"/>
+                <TextBox Text="{Binding LogText, Mode=OneWay}"
+                         IsReadOnly="True"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto"
+                         FontFamily="Consolas"
+                         FontSize="14"/>
 
             </GroupBox>
 

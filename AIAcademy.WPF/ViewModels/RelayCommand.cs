@@ -6,34 +6,22 @@ namespace AIAcademy.WPF.ViewModels
     public class RelayCommand : ICommand
     {
         private readonly Action<object?> _execute;
-        private readonly Func<object?, bool>? _canExecute;
+        private readonly Predicate<object?>? _canExecute;
 
-        public RelayCommand(
-            Action<object?> execute,
-            Func<object?, bool>? canExecute = null)
+        public RelayCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
         {
             _execute = execute;
             _canExecute = canExecute;
         }
 
-        public bool CanExecute(object? parameter)
-        {
-            return _canExecute == null ||
-                   _canExecute(parameter);
-        }
+        public bool CanExecute(object? parameter) => _canExecute?.Invoke(parameter) ?? true;
 
-        public void Execute(object? parameter)
-        {
-            _execute(parameter);
-        }
+        public void Execute(object? parameter) => _execute(parameter);
 
-        public event EventHandler? CanExecuteChanged;
-
-        public void RaiseCanExecuteChanged()
+        public event EventHandler? CanExecuteChanged
         {
-            CanExecuteChanged?.Invoke(
-                this,
-                EventArgs.Empty);
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
     }
 }

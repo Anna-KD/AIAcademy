@@ -11,6 +11,7 @@ namespace AIAcademy.Core.Models
         public LanguageTeacherBot(string name) : base(name)
         {
         }
+        public override string TypeName => "Language Teacher";
 
         public string CreateQuiz()
         {
@@ -32,6 +33,8 @@ namespace AIAcademy.Core.Models
             }
 
             BatteryLevel -= 20;
+
+            OnCrazyActionPerformed();
 
             return $"{Name} translated one word into 20 languages and forgot the original.";
         }

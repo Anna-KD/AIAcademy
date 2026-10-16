@@ -11,6 +11,7 @@ namespace AIAcademy.Core.Models
         public MathTeacherBot(string name) : base(name)
         {
         }
+        public override string TypeName => "Math Teacher";
 
         public string CreateQuiz()
         {
@@ -24,7 +25,6 @@ namespace AIAcademy.Core.Models
             return $"{Name} created a math quiz.";
         }
 
-
         public override string CrazyAction()
         {
             if (BatteryLevel < 20)
@@ -33,6 +33,8 @@ namespace AIAcademy.Core.Models
             }
 
             BatteryLevel -= 20;
+
+            OnCrazyActionPerformed();
 
             return $"{Name} solved 100 equations in one second and got confused by 2 + 2.";
         }

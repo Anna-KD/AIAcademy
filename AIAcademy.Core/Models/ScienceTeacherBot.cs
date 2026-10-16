@@ -11,6 +11,7 @@ namespace AIAcademy.Core.Models
         public ScienceTeacherBot(string name) : base(name)
         {
         }
+        public override string TypeName => "Science Teacher";
 
         public string CreateQuiz()
         {
@@ -29,7 +30,6 @@ namespace AIAcademy.Core.Models
             return $"{Name} is fully recharged.";
         }
 
-
         public override string CrazyAction()
         {
             if (BatteryLevel < 20)
@@ -38,6 +38,7 @@ namespace AIAcademy.Core.Models
             }
 
             BatteryLevel -= 20;
+            OnCrazyActionPerformed();
 
             return $"{Name} created glowing tea during an experiment.";
         }

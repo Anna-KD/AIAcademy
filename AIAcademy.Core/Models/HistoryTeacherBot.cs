@@ -9,6 +9,7 @@ namespace AIAcademy.Core.Models
             : base(name)
         {
         }
+        public override string TypeName => "History Teacher";
 
         public override string Teach()
         {
@@ -49,7 +50,7 @@ namespace AIAcademy.Core.Models
             }
 
             BatteryLevel -= 20;
-
+            OnCrazyActionPerformed();
             return $"{Name} confidently placed a famous historical event in the wrong century.";
         }
         public override string Welcome(RobotTeacher newRobot)
@@ -61,5 +62,6 @@ namespace AIAcademy.Core.Models
             BatteryLevel -= 5;
             return $"{Name} believes this event belongs in history books.";
         }
+
     }
 }
