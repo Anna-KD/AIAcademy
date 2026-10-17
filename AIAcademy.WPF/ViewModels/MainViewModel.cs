@@ -89,7 +89,10 @@ namespace AIAcademy.WPF.ViewModels
                 new RepositoryEntry<LanguageTeacherBot>("Language", n => new LanguageTeacherBot(n)),
                 new RepositoryEntry<ScienceTeacherBot>("Science", n => new ScienceTeacherBot(n)),
                 new RepositoryEntry<HistoryTeacherBot>("History", n => new HistoryTeacherBot(n)),
-                
+                new RepositoryEntry<ArtTeacherBot>("Art", n => new ArtTeacherBot(n)),
+                new RepositoryEntry<MusicTeacherBot>("Music", n => new MusicTeacherBot(n)),
+                new RepositoryEntry<SportTeacherBot>("Sport", n => new SportTeacherBot(n)),
+
             };
 
             // The repository log (greetings, farewells, reactions) ends up in our log.
@@ -101,6 +104,9 @@ namespace AIAcademy.WPF.ViewModels
             Repositories[1].Create("Luna");
             Repositories[2].Create("Nova");
             Repositories[3].Create("Marcus");
+            Repositories[4].Create("Picasso");
+            Repositories[5].Create("Mozart");
+            Repositories[6].Create("Bolt");
 
             AddCommand = new RelayCommand(
                 _ =>
