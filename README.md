@@ -17,12 +17,15 @@ The project demonstrates:
 
 All robot teachers inherit from the abstract class `RobotTeacher`.
 
-| Type | Repository |
-|---|---|
-| MathTeacherBot | `Repository<MathTeacherBot>` |
-| LanguageTeacherBot | `Repository<LanguageTeacherBot>` |
-| ScienceTeacherBot | `Repository<ScienceTeacherBot>` |
-| HistoryTeacherBot | `Repository<HistoryTeacherBot>` |
+| Type | Repository | Added in |
+|---|---|---|
+| MathTeacherBot | `Repository<MathTeacherBot>` | Vol.1 |
+| LanguageTeacherBot | `Repository<LanguageTeacherBot>` | Vol.1 |
+| ScienceTeacherBot | `Repository<ScienceTeacherBot>` | Vol.1 |
+| HistoryTeacherBot | `Repository<HistoryTeacherBot>` | Vol.1 (partner) |
+| ArtTeacherBot | `Repository<ArtTeacherBot>` | Vol.2 (partner) |
+| MusicTeacherBot | `Repository<MusicTeacherBot>` | Vol.2 (partner) |
+| SportTeacherBot | `Repository<SportTeacherBot>` | Vol.2 (partner) |
 
 Each robot type has its own repository.
 
@@ -31,7 +34,7 @@ Each robot type has its own repository.
 - `IQuizCreator`: the robot can create a quiz.
 - `IRechargeable`: the robot can recharge its battery.
 
-Robots that do not implement an interface have the matching button disabled (`CanExecute`).
+All seven types implement both interfaces. A robot that does not implement an interface would have the matching button disabled (`CanExecute`).
 
 ## Object State
 
@@ -42,7 +45,7 @@ Each robot has a name and a battery level (0-100). The battery level changes whe
 | Teach | -10 |
 | Create Quiz | -5 |
 | Crazy Action | -20 |
-| Reaction to a neighbour's Crazy Action | -5 (all current types) |
+| Reaction to a neighbour's Crazy Action | -5 (all types) |
 | Recharge | restores to 100% |
 
 Robots cannot perform actions when the battery level is insufficient.
@@ -80,6 +83,9 @@ All of this logic lives in `Repository<T>` and the models, not in the WPF code-b
 - **LanguageTeacherBot:** translates one word into 20 languages and forgets the original.
 - **ScienceTeacherBot:** creates glowing tea during an experiment.
 - **HistoryTeacherBot:** confidently places a famous historical event in the wrong century.
+- **ArtTeacherBot:** paints the entire classroom blue, including the desks and the door.
+- **MusicTeacherBot:** plays a dramatic symphony on a broken piano.
+- **SportTeacherBot:** organises a full marathon through the academy corridors.
 
 ## WPF Elements Used
 
@@ -103,10 +109,27 @@ Users can select a repository and a robot, add and delete robots, teach, create 
 8. Other repositories keep their state and log unchanged.
 9. Search, sort A-Z and the summary work.
 10. Invalid names are rejected.
+11. The three partner types (Art, Music, Sport) work with add, remove and Crazy Action in the same way as the original types.
 
-## Team work
+## Team work (Vol.2)
 
-A second student added three new robot types in a separate branch and opened a pull request, which was reviewed, approved and merged.
+A second student (arinashishkova) added three new robot types in a separate branch
+(`feature/arina-new-teacher-bots`) and opened Pull Request #4 into `Vol.2`.
+The pull request was reviewed, approved and merged by the main author.
+
+| Type | TypeName | Crazy Action | Reaction to a neighbour's Crazy Action |
+|---|---|---|---|
+| ArtTeacherBot | Art Teacher | -20 battery, paints the classroom blue | -5 battery, adds colorful details |
+| MusicTeacherBot | Music Teacher | -20 battery, plays a symphony on a broken piano | -5 battery, joins with a drum solo |
+| SportTeacherBot | Sport Teacher | -20 battery, organises a marathon in the corridors | -5 battery, warms up to join |
+
+Each new type:
+
+- inherits `RobotTeacher` and implements `IQuizCreator` and `IRechargeable`;
+- has its own `Teach()` with a battery check (-10);
+- raises the `CrazyActionPerformed` event, so only robots of the same repository react;
+- has its own `Repository<T>` registered in `MainViewModel`;
+- has one starting robot.
 
 ## AI Usage
 
