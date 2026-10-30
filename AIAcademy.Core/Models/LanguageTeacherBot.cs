@@ -3,10 +3,13 @@ using AIAcademy.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
 
 namespace AIAcademy.Core.Models
 {
-    public class LanguageTeacherBot : RobotTeacher, IQuizCreator, IRechargeable
+    public class LanguageTeacherBot : RobotTeacher, IQuizCreator, IRechargeable, IHeavyWorker
     {
         public LanguageTeacherBot(string name) : base(name)
         {
@@ -63,6 +66,23 @@ namespace AIAcademy.Core.Models
             BatteryLevel -= 5;
             return $"{Name} is trying to translate {robot.Name}'s explanation.";
         }
+        public Task<WorkResult> DoHeavyWorkAsync(
+    RobotSnapshot snapshot, int workload, CancellationToken token)
+    => HeavyWorkRunner.RunAsync(snapshot, () =>
+    {
+        // Vol.3: simulated failure for error-handling demo
+        if (snapshot.BatteryLevel < 30)
+            throw new InvalidOperationException("Language database error: battery too low");
+
+        // Total number of letters in all words (word length is from 3 to 10)
+        long letters = 0;
+        for (long i = 0; i < workload; i++)
+        {
+            token.ThrowIfCancellationRequested();
+            letters += 3 + i % 8;
+        }
+        return letters;
+    });
     }
 
 }
