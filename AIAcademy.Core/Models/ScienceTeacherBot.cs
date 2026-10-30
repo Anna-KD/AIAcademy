@@ -3,10 +3,12 @@ using AIAcademy.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AIAcademy.Core.Models
 {
-    public class ScienceTeacherBot : RobotTeacher, IQuizCreator, IRechargeable
+    public class ScienceTeacherBot : RobotTeacher, IQuizCreator, IRechargeable, IHeavyWorker
     {
         public ScienceTeacherBot(string name) : base(name)
         {
@@ -62,5 +64,21 @@ namespace AIAcademy.Core.Models
             BatteryLevel -= 5;
             return $"{Name} starts analysing {robot.Name}'s experiment.";
         }
+
+        public Task<WorkResult> DoHeavyWorkAsync(
+    RobotSnapshot snapshot, int workload, CancellationToken token)
+    => HeavyWorkRunner.RunAsync(snapshot, () =>
+    {
+        // Count perfect squares (1, 4, 9, 16...) among numbers up to workload
+        long squares = 0;
+        for (long i = 1; i <= workload; i++)
+        {
+            token.ThrowIfCancellationRequested();
+            long root = (long)Math.Sqrt(i);
+            if (root * root == i)
+                squares++;
+        }
+        return squares;
+    });
     }
 }

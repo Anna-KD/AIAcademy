@@ -3,10 +3,12 @@ using AIAcademy.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AIAcademy.Core.Models
 {
-    public class MathTeacherBot : RobotTeacher, IQuizCreator, IRechargeable
+    public class MathTeacherBot : RobotTeacher, IQuizCreator, IRechargeable, IHeavyWorker
     {
         public MathTeacherBot(string name) : base(name)
         {
@@ -63,5 +65,19 @@ namespace AIAcademy.Core.Models
             BatteryLevel -= 5;
             return $"{Name} is impressed by {robot.Name}'s calculations.";
         }
+        public Task<WorkResult> DoHeavyWorkAsync(
+    RobotSnapshot snapshot, int workload, CancellationToken token)
+    => HeavyWorkRunner.RunAsync(snapshot, () =>
+    {
+        // Sum of all numbers up to workload that are divisible by 3 or 5
+        long sum = 0;
+        for (long i = 1; i <= workload; i++)
+        {
+            token.ThrowIfCancellationRequested();
+            if (i % 3 == 0 || i % 5 == 0)
+                sum += i;
+        }
+        return sum;
+    });
     }
 }
